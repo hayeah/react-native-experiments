@@ -14,21 +14,17 @@ import {
 
 import Easing from "Easing";
 
-import { DeviceEventEmitter } from 'react-native';
-
 export class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this._animated = {
+    this.animated = {
       left: new Animated.Value(0)
     }
-
-    this.state = {};
   }
 
   animateLeft = () => {
-    const { left } = this._animated;
+    const { left } = this.animated;
 
     Animated.timing(left, {
       toValue: 300,
@@ -38,9 +34,14 @@ export class App extends React.Component {
   }
 
   reset = () => {
-    const { left } = this._animated;
+    this.animated.left.setValue(0);
+  }
 
-    left.setValue(0);
+  busywork() {
+    let n = 100000000;
+    while(n > 0) {
+      n--;
+    }
   }
 
   renderToolbar() {
@@ -62,27 +63,16 @@ export class App extends React.Component {
   }
 
   render() {
-    const { left } = this._animated;
+    const { left } = this.animated;
+    console.log("render");
 
-
+    this.busywork();
 
     return (
-      <View style={[
-        jss.container,
-        ]}>
-
+      <View style={jss.container}>
         <Animated.View style={[jss.box, {left}]}/>
 
-        {/*
-        <Animated.View style={[jss.box, {
-          backgroundColor: 'blue',
-          top: left,
-        }]}/>
-        */}
-
-
         {this.renderToolbar()}
-
       </View>
     );
   }
