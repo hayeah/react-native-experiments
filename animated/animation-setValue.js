@@ -12,8 +12,6 @@ import {
   Text,
 } from "react-native";
 
-import Easing from "Easing";
-
 export class App extends React.Component {
   constructor(props) {
     super(props);
