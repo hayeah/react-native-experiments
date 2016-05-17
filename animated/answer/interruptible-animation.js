@@ -29,7 +29,7 @@ export class App extends React.Component {
     };
   }
 
-  animateFadeout = () => {
+  animateHide = () => {
     const { top } = this.animated;
 
     Animated.spring(top, {
@@ -41,7 +41,7 @@ export class App extends React.Component {
     });
   }
 
-  animateFadein = () => {
+  animateShow = () => {
     const { top } = this.animated;
 
     this.setState({isBoxHidden: false});
@@ -54,10 +54,10 @@ export class App extends React.Component {
   toggleBoxHidden = () => {
     if (this.animating.hidingBox) {
       this.animating.hidingBox = false;
-      this.animateFadein();
+      this.animateHide();
     } else {
       this.animating.hidingBox = true;
-      this.animateFadeout();
+      this.animateShow();
     }
   }
 
