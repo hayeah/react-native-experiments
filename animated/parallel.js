@@ -37,8 +37,7 @@ export class App extends React.Component {
       duration: 300,
     });
 
-    Animated.parallel([animateLeft, animateTop])
-      .start();
+    Animated.parallel([animateLeft, animateTop]).start();
   }
 
   reset = () => {
@@ -46,11 +45,6 @@ export class App extends React.Component {
 
     left.setValue(0);
     top.setValue(0);
-  }
-
-  onBoxLayout = (e) => {
-    const { layout } = e.nativeEvent;
-    console.log("box layout", layout);
   }
 
   renderToolbar() {
@@ -85,7 +79,6 @@ export class App extends React.Component {
               ]
             }
           ]}
-          onLayout={this.onBoxLayout}
           />
 
         {this.renderToolbar()}
