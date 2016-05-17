@@ -17,27 +17,53 @@ export class App extends React.Component {
     super(props);
 
     this.animated = {
-      opacity: new Animated.Value(1)
+      top: new Animated.Value(0)
     };
 
     this.state = {
       isBoxHidden: false,
     };
+
+    this.animating = {
+      hidingBox: false,
+    };
   }
 
   animateFadeout = () => {
-    const { opacity } = this.animated;
+    const { top } = this.animated;
 
-    Animated.spring(opacity, {
-      toValue: 0,
-    }).start(() => {
-      this.setState({isBoxHidden: true});
+    Animated.spring(top, {
+      toValue: 500,
+    }).start(({finished}) => {
+      if (finished) {
+        this.setState({isBoxHidden: true});
+      }
     });
   }
 
+  animateFadein = () => {
+    const { top } = this.animated;
+
+    this.setState({isBoxHidden: false});
+
+    Animated.spring(top, {
+      toValue: 0,
+    }).start();
+  }
+
+  toggleBoxHidden = () => {
+    if (this.animating.hidingBox) {
+      this.animating.hidingBox = false;
+      this.animateFadein();
+    } else {
+      this.animating.hidingBox = true;
+      this.animateFadeout();
+    }
+  }
+
   reset = () => {
-    const { opacity } = this.animated;
-    opacity.setValue(1);
+    const { top } = this.animated;
+    opacity.setValue(0);
     this.setState({isBoxHidden: false});
   }
 
@@ -45,7 +71,7 @@ export class App extends React.Component {
     return (
       <View style={jss.toolbar}>
         <TouchableOpacity style={jss.animateTrigger}
-          onPress={this.animateFadeout}
+          onPress={this.toggleBoxHidden}
           >
           <Text>Animate</Text>
         </TouchableOpacity>
@@ -60,7 +86,7 @@ export class App extends React.Component {
   }
 
   render() {
-    const { opacity } = this.animated;
+    const { top } = this.animated;
     const { isBoxHidden } = this.state;
 
     return (
@@ -69,7 +95,7 @@ export class App extends React.Component {
 
           <Animated.View style={[
               jss.box,
-              { opacity }
+              { transform: [{ translateY: top}] }
             ]}/>
         }
 
